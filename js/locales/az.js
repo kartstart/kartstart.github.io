@@ -130,7 +130,6 @@ export default {
     installDesktop: 'Chrome və ya Edge menyusunda KartStart-ı quraşdırmaq seçimi varsa, onu seç.',
     installGuideLink: 'Tətbiqi necə quraşdırmaq olar?',
     installGuideTitle: 'KartStart-ı quraşdır',
-    installPlatforms: 'Cihaza uyğun quraşdırma təlimatları',
     installBrowserHelp: 'Saytı başqa tətbiqin içində açmısan?',
     installAddress: 'KartStart saytının ünvanı',
     installCopyAddress: 'Ünvanı kopyala',

@@ -1,11 +1,6 @@
 import { content, t } from './i18n.js';
 import { backLink, escapeHtml, icon, pageHeader } from './ui.js';
 
-const platforms = [
-  ['ios', 'iPhone'],
-  ['android', 'Android']
-];
-
 const illustrations = {
   ios: ['compass', 'share', 'squarePlus', 'toggle', 'plus', 'app'],
   android: ['compass', 'more', 'squarePlus', 'check', 'app']
@@ -52,9 +47,6 @@ export function installGuideView(platform, embedded) {
   return `<div class="install-guide">
     ${backLink('#/settings', t('settings'))}
     ${pageHeader(t('installGuideTitle'), guide.description)}
-    <nav class="category-nav install-platforms" aria-label="${escapeHtml(t('installPlatforms'))}">
-      ${platforms.map(([id, label]) => `<a href="${installGuidePath(id)}"${id === platform ? ' aria-current="page"' : ''}>${label}</a>`).join('')}
-    </nav>
     <details class="surface install-browser-help"${embedded ? ' open' : ''}>
       <summary>${icon('external', 18)}<strong>${escapeHtml(t('installBrowserHelp'))}</strong>${icon('down', 17)}</summary>
       <p>${escapeHtml(guide.embedded)}</p>

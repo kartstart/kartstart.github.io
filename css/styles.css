@@ -730,14 +730,6 @@ textarea { resize: vertical; }
 }
 
 .install-guide { max-width: 680px; }
-.install-platforms {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  width: min(100%, 320px);
-  margin-bottom: 12px;
-}
-
-.install-platforms a { justify-content: center; }
 .install-browser-help { margin-bottom: 12px; }
 .install-browser-help summary { min-height: 46px; font-size: 14px; }
 .install-browser-help p {

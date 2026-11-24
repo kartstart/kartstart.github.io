@@ -130,7 +130,6 @@ export default {
     installDesktop: 'В Chrome или Edge открой меню браузера и выбери установку KartStart, если этот пункт доступен.',
     installGuideLink: 'Как установить приложение?',
     installGuideTitle: 'Установка KartStart',
-    installPlatforms: 'Инструкции по устройствам',
     installBrowserHelp: 'Сайт открыт внутри другого приложения?',
     installAddress: 'Адрес сайта KartStart',
     installCopyAddress: 'Скопировать адрес',
