@@ -1,7 +1,7 @@
 import { currentLanguage, t, useLanguage } from './i18n.js';
 import { categories, guideResults, guideView } from './guide.js';
 import { changeRides, downloadBackup, entryFromForm, journalKey, readBackup, readRides } from './journal.js';
-import { centerCard, centerEnabled, centerView } from './partner.js';
+import { centerCard, centerEnabled, centerPath, centerTabs, centerView } from './partner.js';
 import { bindQuiz, bindReaction, quizView, reactionView } from './training.js';
 import { brand, escapeHtml, icon } from './ui.js';
 import { homeView, journalDetails, journalForm, journalView, missingRide, practiceView, settingsView } from './views.js';
@@ -10,8 +10,10 @@ const root = document.querySelector('#app');
 const dialog = document.querySelector('#confirm-dialog');
 const status = document.querySelector('#app-status');
 const tabs = ['home', 'guide', 'journal', 'practice'];
+if (centerEnabled) tabs.push('center');
+const compactNav = { guide: 'guideNavShort', practice: 'practiceNavShort', center: 'centerNavShort' };
 const drills = ['reaction', 'flags', 'situations'];
-const paths = { home: '#/', guide: '#/guide/flags', journal: '#/journal', practice: '#/practice' };
+const paths = { home: '#/', guide: '#/guide/flags', journal: '#/journal', practice: '#/practice', center: '#/center' };
 
 let theme = document.documentElement.dataset.theme;
 let route;
@@ -55,9 +57,11 @@ function routeFromHash(hash) {
         : { section: 'practice', href: paths.practice };
     case 'settings':
       return { section, href: '#/settings' };
-    case 'center':
-      if (centerEnabled) return { section, href: '#/center' };
-      break;
+    case 'center': {
+      if (!centerEnabled) break;
+      const tab = centerTabs.some(([id]) => id === item) ? item : 'overview';
+      return { section, tab, href: centerPath(tab) };
+    }
   }
   return { section: 'home', href: '#/' };
 }
@@ -67,9 +71,12 @@ function shell() {
     <div class="app-layout">
       <aside class="rail">
         <div class="rail-brand">${brand()}</div>
-        <nav class="main-nav" aria-label="${escapeHtml(t('mainNav'))}">
+        <nav class="main-nav${centerEnabled ? ' main-nav--center' : ''}" aria-label="${escapeHtml(t('mainNav'))}">
           ${tabs.map(tab => `<a class="nav-link" href="${paths[tab]}" data-nav="${tab}">
-            <span class="nav-icon">${icon(tab, 21)}</span><span>${escapeHtml(t(tab))}</span>
+            <span class="nav-icon">${icon(tab === 'center' ? 'pin' : tab, 21)}</span>
+            ${centerEnabled && compactNav[tab]
+              ? `<span class="nav-label-full">${escapeHtml(t(tab))}</span><span class="nav-label-compact">${escapeHtml(t(compactNav[tab]))}</span>`
+              : `<span>${escapeHtml(t(tab))}</span>`}
           </a>`).join('')}
         </nav>
       </aside>
@@ -138,7 +145,7 @@ function render({ scroll = false, focus = false } = {}) {
       main.innerHTML = settingsView({ theme, installed: isInstalled(), hasRides: rides.length > 0, readFailed }, settingsBack);
       break;
     case 'center':
-      main.innerHTML = centerView();
+      main.innerHTML = centerView(route.tab);
       break;
   }
   if (scroll) window.scrollTo(0, 0);

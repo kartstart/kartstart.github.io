@@ -1,4 +1,4 @@
-const VERSION = '1.0.0';
+const VERSION = '1.2.0';
 const scope = new URL(self.registration.scope);
 const prefix = `kartstart:${scope.pathname}:`;
 const cacheName = prefix + VERSION;
@@ -17,6 +17,7 @@ const shell = [
   'js/training.js',
   'js/partner.js',
   'js/partner-config.js',
+  'js/center-rules.js',
   'js/locales/ru.js',
   'js/locales/en.js',
   'js/locales/az.js',
@@ -28,7 +29,11 @@ const shell = [
   'assets/noto-sans-regular.woff',
   'assets/noto-sans-bold.woff',
   'assets/kart-hero.webp',
-  'assets/kart-hero-mobile.webp'
+  'assets/kart-hero-mobile.webp',
+  'assets/baku-center-logo.png',
+  'assets/baku-booking.webp',
+  'assets/baku-track.webp',
+  'assets/baku-track.pdf'
 ].map(path => new URL(path, scope).href);
 
 const assets = new Set(shell);
