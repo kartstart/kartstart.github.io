@@ -1,5 +1,6 @@
 import { currentLanguage, t, useLanguage } from './i18n.js';
 import { categories, guideResults, guideView } from './guide.js';
+import { installEnvironment, installGuidePath, installGuideView } from './install.js';
 import { changeRides, downloadBackup, entryFromForm, journalKey, readBackup, readRides } from './journal.js';
 import { centerCard, centerEnabled, centerPath, centerTabs, centerView } from './partner.js';
 import { bindQuiz, bindReaction, quizView, reactionView } from './training.js';
@@ -14,6 +15,7 @@ if (centerEnabled) tabs.push('center');
 const compactNav = { guide: 'guideNavShort', practice: 'practiceNavShort', center: 'centerNavShort' };
 const drills = ['reaction', 'flags', 'situations'];
 const paths = { home: '#/', guide: '#/guide/flags', journal: '#/journal', practice: '#/practice', center: '#/center' };
+const installation = installEnvironment(navigator);
 
 let theme = document.documentElement.dataset.theme;
 let route;
@@ -56,6 +58,10 @@ function routeFromHash(hash) {
         ? { section: 'practice', drill: item, href: '#/practice/' + item }
         : { section: 'practice', href: paths.practice };
     case 'settings':
+      if (item === 'install') {
+        const platform = mode === 'android' ? 'android' : 'ios';
+        return { section, installGuide: platform, href: installGuidePath(platform) };
+      }
       return { section, href: '#/settings' };
     case 'center': {
       if (!centerEnabled) break;
@@ -112,7 +118,7 @@ function render({ scroll = false, focus = false } = {}) {
   else settingsButton.removeAttribute('aria-current');
   root.querySelector('.current-section').textContent = t(route.section);
   main.className = 'view view-' + route.section;
-  document.title = route.section === 'home' ? 'KartStart' : t(route.section) + ' · KartStart';
+  document.title = route.section === 'home' ? 'KartStart' : t(route.installGuide ? 'installGuideTitle' : route.section) + ' · KartStart';
 
   switch (route.section) {
     case 'home':
@@ -141,9 +147,15 @@ function render({ scroll = false, focus = false } = {}) {
         main.innerHTML = practiceView();
       }
       break;
-    case 'settings':
-      main.innerHTML = settingsView({ theme, installed: isInstalled(), hasRides: rides.length > 0, readFailed }, settingsBack);
+    case 'settings': {
+      const installed = isInstalled();
+      if (route.installGuide) {
+        main.innerHTML = installGuideView(route.installGuide, installation.embedded && !installed);
+      } else {
+        main.innerHTML = settingsView({ theme, installed, platform: installation.platform, hasRides: rides.length > 0, readFailed }, settingsBack);
+      }
       break;
+    }
     case 'center':
       main.innerHTML = centerView(route.tab);
       break;
@@ -321,7 +333,7 @@ async function importJournal(input) {
       return [...old, ...newRides];
     });
     readFailed = false;
-    if (route.section === 'settings') {
+    if (route.section === 'settings' && !route.installGuide) {
       render();
       root.querySelector('[data-action="import"]').focus();
     } else if (route.section === 'journal' && !route.mode) render();
@@ -335,17 +347,18 @@ async function importJournal(input) {
 
 function manualInstall(button) {
   if (!button.isConnected) return;
+  if (installation.platform === 'android') {
+    location.hash = installGuidePath('android');
+    return;
+  }
   const help = root.querySelector('#install-help');
-  const ua = navigator.userAgent;
-  const isIOS = /iPhone|iPad|iPod/i.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-  const key = isIOS ? 'installIOS' : /Android/i.test(ua) ? 'installAndroid' : 'installDesktop';
-  help.textContent = t(key);
+  help.textContent = t('installDesktop');
   help.hidden = !help.hidden;
   button.setAttribute('aria-expanded', String(!help.hidden));
 }
 
 async function installApp(button) {
-  if (isInstalled()) return;
+  if (isInstalled() || installation.platform === 'ios') return;
   const event = installEvent;
   if (!event) {
     manualInstall(button);
@@ -362,6 +375,19 @@ async function installApp(button) {
   } finally {
     if (isInstalled() && route.section === 'settings') render({ focus: true });
     else button.disabled = false;
+  }
+}
+
+async function copyInstallAddress() {
+  const field = root.querySelector('#install-address');
+  try {
+    await navigator.clipboard.writeText(field.value);
+    toast(t('installCopied'));
+  } catch {
+    if (!field.isConnected) return;
+    field.focus();
+    field.select();
+    toast(t('installCopyManually'));
   }
 }
 
@@ -383,6 +409,7 @@ root.addEventListener('click', event => {
   const action = event.target.closest('[data-action]');
   switch (action?.dataset.action) {
     case 'install': installApp(action); break;
+    case 'copy-install-address': copyInstallAddress(); break;
     case 'delete-ride': deleteRide(); break;
     case 'clear': deleteRide(true); break;
     case 'export': exportJournal(); break;
@@ -422,12 +449,13 @@ window.addEventListener('offline', updateConnectivity);
 window.addEventListener('storage', event => {
   if (event.key !== journalKey && event.key !== null) return;
   refreshJournal();
-  if ((route.section === 'journal' && (!route.mode || route.mode === 'details')) || route.section === 'settings') render();
+  if ((route.section === 'journal' && (!route.mode || route.mode === 'details')) ||
+      (route.section === 'settings' && !route.installGuide)) render();
 });
 
 window.addEventListener('beforeinstallprompt', event => {
   event.preventDefault();
-  installEvent = event;
+  if (!isInstalled() && installation.platform !== 'ios') installEvent = event;
 });
 
 window.addEventListener('appinstalled', () => {

@@ -1,4 +1,4 @@
-const VERSION = '1.2.0';
+const VERSION = '1.3.0';
 const scope = new URL(self.registration.scope);
 const prefix = `kartstart:${scope.pathname}:`;
 const cacheName = prefix + VERSION;
@@ -10,6 +10,7 @@ const shell = [
   'js/appearance.js',
   'js/app.js',
   'js/i18n.js',
+  'js/install.js',
   'js/ui.js',
   'js/guide.js',
   'js/journal.js',

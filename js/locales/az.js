@@ -127,9 +127,16 @@ export default {
     install: 'Tətbiqi quraşdır',
     installed: 'Tətbiq artıq quraşdırılıb',
     installDescription: 'KartStart-ı cihazının əsas ekranından aç.',
-    installIOS: 'Safari → Paylaş → Əsas ekrana əlavə et → Əlavə et. Əlavə etməzdən əvvəl Veb-tətbiq kimi açmaq seçimi varsa, onu aktivləşdir.',
-    installAndroid: 'Chrome-da ⋮ menyusunu aç → «Quraşdır və qısayol yarat» → «Quraşdır». Versiyadan asılı olaraq «Əsas ekrana əlavə et» və ya «Tətbiqi quraşdır» seçimi görünə bilər.',
     installDesktop: 'Chrome və ya Edge menyusunda KartStart-ı quraşdırmaq seçimi varsa, onu seç.',
+    installGuideLink: 'Tətbiqi necə quraşdırmaq olar?',
+    installGuideTitle: 'KartStart-ı quraşdır',
+    installPlatforms: 'Cihaza uyğun quraşdırma təlimatları',
+    installBrowserHelp: 'Saytı başqa tətbiqin içində açmısan?',
+    installAddress: 'KartStart saytının ünvanı',
+    installCopyAddress: 'Ünvanı kopyala',
+    installCopied: 'Ünvan kopyalandı.',
+    installCopyManually: 'Ünvanı kopyalamaq üçün üzərinə toxunub basılı saxla.',
+    installDone: 'Aydındır',
     about: 'KartStart haqqında',
     aboutText: 'İlk sürüşlərin üçün köməkçi. İlk yükləmədən sonra bələdçi, gündəlik və məşqlər oflayn işləyir.',
     diaryData: 'Gündəlik məlumatları',
@@ -181,6 +188,32 @@ export default {
     centerRulesResponsibility: 'Məsuliyyət',
     centerRulesProhibitions: 'Qadağalar',
     centerRulesMinors: 'Sənədlər və 18 yaşdan kiçik iştirakçılar'
+  },
+
+  installGuide: {
+    ios: {
+      description: 'KartStart-ı Safari vasitəsilə əsas ekrana əlavə et. Düymələrin adları və yeri iOS versiyasına və telefonun dilinə görə dəyişə bilər.',
+      embedded: 'Instagram-da və ya başqa tətbiqdə ⋯ və ya «Paylaş» menyusunu aç. «Safari-də aç» seçimi varsa, ona toxun. Aşağıdakı ünvanı kopyalayıb Safari-yə də yapışdıra bilərsən.',
+      steps: [
+        ['KartStart-ı Safari-də aç', 'Bu ünvanı iPhone-da Safari-nin ünvan sətrinə yaz.'],
+        ['«Paylaş» düyməsinə toxun', 'Yuxarı oxu olan kvadrat işarəni tap. Safari-nin bəzi versiyalarında əvvəlcə «…» menyusunu açmaq lazımdır.'],
+        ['«Əsas ekrana əlavə et» seç', 'Siyahını aşağı sürüşdürüb bu bəndi tap (Add to Home Screen). Görünmürsə, menyunun sonundakı əməliyyat siyahısını redaktə edib onu əlavə et.'],
+        ['«Veb tətbiqi kimi aç» seçimini aktiv et', 'Bu seçim görünürsə, onu aktivləşdir. Görünmürsə, növbəti addıma keç.'],
+        ['«Əlavə et» düyməsinə toxun', 'Bu düymə adətən yuxarı sağ küncdə olur.'],
+        ['KartStart-ı aç', 'KartStart nişanı əsas ekranda görünəcək. Tətbiqi açmaq üçün nişana toxun.']
+      ]
+    },
+    android: {
+      description: 'KartStart-ı əsas ekrana əlavə et. Bu addımlar Chrome üçündür və quraşdırmanı dəstəkləyən digər brauzerlərdə də oxşardır.',
+      embedded: 'Instagram-da və ya başqa tətbiqdə ⋮ menyusunu açıb «Chrome-da aç» və ya «Brauzerdə aç» seç. Aşağıdakı ünvanı kopyalayıb Chrome-a da yapışdıra bilərsən.',
+      steps: [
+        ['KartStart-ı Chrome-da aç', 'Bu ünvanı brauzerin ünvan sətrinə yaz.'],
+        ['Chrome menyusunu aç', 'Ünvan sətrinin yanındakı ⋮ işarəsinə toxun.'],
+        ['Quraşdırma seçimini tap', '«Quraşdır və qısayol yarat» → «Quraşdır» seç. Versiyadan asılı olaraq «Tətbiqi quraşdır» və ya «Əsas ekrana əlavə et» seçimi görünə bilər.'],
+        ['Quraşdırmanı təsdiqlə', 'Brauzer təsdiq istəsə, «Quraşdır» düyməsinə toxun.'],
+        ['KartStart-ı aç', 'KartStart nişanını əsas ekranda və ya tətbiqlər siyahısında tap.']
+      ]
+    }
   },
 
   flags: {

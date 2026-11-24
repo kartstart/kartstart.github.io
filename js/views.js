@@ -1,4 +1,5 @@
 import { currentLanguage, dateLabel, languages, t } from './i18n.js';
+import { installGuidePath } from './install.js';
 import { conditions, limits, today } from './journal.js';
 import { backLink, emptyState, escapeHtml, icon, lamps, notice, pageHeader, tile } from './ui.js';
 
@@ -143,7 +144,9 @@ function themeOption(value, symbol, selected) {
   </label>`;
 }
 
-export function settingsView({ theme, installed, hasRides, readFailed }, returnUrl) {
+export function settingsView({ theme, installed, platform, hasRides, readFailed }, returnUrl) {
+  const showInstallButton = !installed && platform !== 'ios';
+  const desktopHelp = showInstallButton && platform === 'desktop';
   return `${backLink(returnUrl)}${pageHeader(t('settings'))}
     <div class="settings-grid">
       <section class="surface settings-card">
@@ -161,11 +164,16 @@ export function settingsView({ theme, installed, hasRides, readFailed }, returnU
       </section>
       <section class="surface settings-card">
         <h2>${escapeHtml(t('appSection'))}</h2>
-        <p>${escapeHtml(t('installDescription'))}</p>
-        <button type="button" class="button secondary" data-action="install" ${installed ? 'disabled' : ''} aria-controls="install-help" aria-expanded="false">
-          ${icon('phone', 20)}${escapeHtml(t(installed ? 'installed' : 'install'))}
-        </button>
-        <p id="install-help" class="inline-help" hidden></p>
+        ${installed
+          ? `<div class="settings-installed">${icon('check', 19)}${escapeHtml(t('installed'))}</div>`
+          : `<p>${escapeHtml(t('installDescription'))}</p>`}
+        <div class="settings-install-actions">
+          ${showInstallButton ? `<button type="button" class="button secondary" data-action="install"${desktopHelp ? ' aria-controls="install-help" aria-expanded="false"' : ''}>
+            ${icon('phone', 20)}${escapeHtml(t('install'))}
+          </button>` : ''}
+          <a href="${installGuidePath()}" class="button secondary">${icon('guide', 20)}${escapeHtml(t('installGuideLink'))}</a>
+        </div>
+        ${desktopHelp ? '<p id="install-help" class="inline-help" hidden></p>' : ''}
         <details class="about-details">
           <summary><strong>${escapeHtml(t('about'))}</strong>${icon('down', 19)}</summary>
           <p>${escapeHtml(t('aboutText'))}</p>

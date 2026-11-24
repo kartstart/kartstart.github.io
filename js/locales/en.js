@@ -127,9 +127,16 @@ export default {
     install: 'Install app',
     installed: 'App already installed',
     installDescription: 'Open KartStart from your device’s home screen.',
-    installIOS: 'Safari → Share → Add to Home Screen → Add. If you see “Open as Web App”, turn it on before tapping Add.',
-    installAndroid: 'In Chrome, open ⋮ → “Install and create shortcut” → “Install”. Depending on your version, look for “Add to home screen” or “Install app”.',
     installDesktop: 'In Chrome or Edge, open the browser menu and choose to install KartStart if the option is available.',
+    installGuideLink: 'How do I install the app?',
+    installGuideTitle: 'Install KartStart',
+    installPlatforms: 'Installation guides by device',
+    installBrowserHelp: 'Viewing this site inside another app?',
+    installAddress: 'KartStart website address',
+    installCopyAddress: 'Copy website address',
+    installCopied: 'Address copied.',
+    installCopyManually: 'Touch and hold the address to copy it.',
+    installDone: 'Got it',
     about: 'About KartStart',
     aboutText: 'A companion for your first sessions. The guide, journal and drills work offline after the first load.',
     diaryData: 'Journal data',
@@ -181,6 +188,32 @@ export default {
     centerRulesResponsibility: 'Responsibility',
     centerRulesProhibitions: 'Prohibited actions',
     centerRulesMinors: 'ID and participants under 18'
+  },
+
+  installGuide: {
+    ios: {
+      description: 'Add KartStart to your Home Screen from Safari. Menu labels and button locations vary by iOS version and language.',
+      embedded: 'In Instagram or another app, open the ⋯ or Share menu and choose “Open in Safari” if available. You can also copy the address below and paste it into Safari.',
+      steps: [
+        ['Open KartStart in Safari', 'Enter this address in Safari on your iPhone.'],
+        ['Tap Share', 'Look for the square with an arrow pointing up. In some Safari layouts, tap the … menu first.'],
+        ['Choose Add to Home Screen', 'Scroll down the action list to find it. If it’s missing, scroll to the bottom and tap Edit Actions to add it.'],
+        ['Turn on Open as Web App', 'If this switch appears, turn it on. If it’s missing, continue to the next step.'],
+        ['Tap Add', 'The button is usually in the upper-right corner.'],
+        ['Open KartStart', 'The KartStart icon appears on your Home Screen. Tap it to open the app.']
+      ]
+    },
+    android: {
+      description: 'Add KartStart to your home screen. These steps are for Chrome and are similar in other browsers that support installation.',
+      embedded: 'In Instagram or another app, open the ⋮ menu and choose “Open in Chrome” or “Open in browser”. You can also copy the address below and paste it into Chrome.',
+      steps: [
+        ['Open KartStart in Chrome', 'Enter this address in the browser’s address bar.'],
+        ['Open the Chrome menu', 'Tap ⋮ next to the address bar.'],
+        ['Choose the install option', 'Tap Install and create shortcut → Install. Depending on your version, look for “Install app” or “Add to home screen”.'],
+        ['Confirm installation', 'If the browser asks you to confirm, tap Install.'],
+        ['Open KartStart', 'Find the KartStart icon on your home screen or in your app list.']
+      ]
+    }
   },
 
   flags: {
